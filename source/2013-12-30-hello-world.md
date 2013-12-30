@@ -6,6 +6,6 @@ public: true
 tags: Test
 ---
 
-<iframe src="http://www.flickr.com/photos/atsnngs/11527017794/player/" width="500" height="500" frameborder="0" allowfullscreen webkitallowfullscreen mozallowfullscreen oallowfullscreen msallowfullscreen></iframe>
+[![Hiromichi](http://farm6.staticflickr.com/5533/11527017794_740f3c7290.jpg)](http://www.flickr.com/photos/atsnngs/11527017794)
 
 It works.
