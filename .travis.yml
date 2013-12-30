@@ -1,0 +1,14 @@
+---
+language: ruby
+cache: bundler
+script: bundle exec middleman build
+env:
+  global:
+    - GIT_COMMITTER_NAME='pyc@travis-ci'
+    - GIT_COMMITTER_EMAIL='p+travis@ngs.io'
+    - GIT_AUTHOR_NAME='pyc@travis-ci'
+    - GIT_AUTHOR_EMAIL='p+travis@ngs.io'
+    - secure: "CYkrQAV5TE99dGgqjP9Dw6CesMsckcRMmxAj1KQCBk769/9cU4Uoaeo51iStPT6g0WMuUnZ4SYiKHtkvTYjQnQwpmLhjzRrKphqU630fhlU7JhqzRBe5v6Hwu523refexJekg4H2IQm9GaN2RVWihkidI9/vdek3wGzIKNV40gI="
+after_success:
+  - '[ "$TRAVIS_BRANCH" == "master" ] && [ $GH_TOKEN ] && bundle exec middleman deploy'
+

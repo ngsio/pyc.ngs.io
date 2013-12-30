@@ -1,0 +1,58 @@
+!!! 5
+%html
+  %head
+    %meta{ charset: "utf-8" }
+    %meta{ http_equiv: 'X-UA-Compatible', content: 'IE=edge;chrome=1' }
+    %meta{ content: 'width=device-width, initial-scale=1, maximum-scale=1', name: 'viewport' }
+    %meta{ content: "Middleman #{Middleman::VERSION}", name: 'generator' }
+    %link{ rel: 'author', href: 'https://plus.google.com/+MizueNAGASE' }
+    %title= "#{ current_article.title + ' - '  unless current_article.nil? }pyc の日記"
+    - %w{ bootstrap application syntax font-awesome }.each do|css|
+      = stylesheet_link_tag css
+    - if data.page.description
+      %meta{ content: data.page.description, name: "description" }
+    - else
+      %meta{ content: "趣味のこと。日々のこと。", name: "description" }
+    - if data.page.keywords
+      %meta{ content: data.page.keywords, name: "keywords" }
+    %meta{ content: "長瀬 瑞枝", name: "author" }
+    = feed_tag :atom, "#{blog.options.prefix.to_s}/feed.xml", title: "Atom Feed"
+  %body
+    .container
+      .row
+        %main.col-md-9{ role: 'main' }
+          = yield
+        %aside.col-md-3
+          %h2 最近の記事
+          %ol.nav
+            - blog.articles.select {|a| a.data[:public] }.sort { |x,y| y.date <=> x.date }[0...10].each do |article|
+              %li
+                = link_to article do
+                  %span.title= article.title
+                  %time= article.date.strftime('%Y/%m/%d')
+          %h2 タグ
+          %ol.nav
+            - blog.tags.each do |tag, articles|
+              %li
+                = link_to tag_path(tag) do
+                  %span.glyphicon.glyphicon-tag
+                  = tag
+                  %span.badge.pull-right= articles.size
+          %h2 月別
+          %ol.nav
+            - blog.articles.select {|a| a.data[:public] }.group_by {|a| a.date.year }.each do |year, year_articles|
+              - year_articles.group_by {|a| a.date.month }.each do |month, month_articles|
+                %li
+                  = link_to blog_month_path(year, month) do
+                    = sprintf '%04d年%02d月', year, month
+                    %span.badge.pull-right= month_articles.size
+      %footer.row
+        %address.col-md-12<
+          Copyright &copy; #{ Time.now.year }
+          = link_to 'Mizue Nagase', 'http://pyc.ngs.io/'
+          \.
+          Proudly hosted by
+          = link_to 'GitHub Pages', 'http://pages.github.com'
+          \.
+
+    = google_analytics_tag
